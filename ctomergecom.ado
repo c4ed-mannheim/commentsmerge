@@ -108,7 +108,26 @@ preserve
 	*set default comments variable name	
 	if "`cvar'" == "" {
 	local cvar "comx"
-	di "No comment variable name specified - will use _comx"
+	di "No comment variable name specified - will use _comx"	
+	}
+	
+	else {
+		local scheck = substr("`cvar'", 1, 1)	
+		local schecko = regexm("`scheck'", "[a-zA-Z]")
+		local anyspec regexm("`cvar'", "[^a-zA-Z0-9]")
+		local varl = strlen("`cvar'")
+		if `schecko' !=1 {
+		di as err "Option cvar must start with alphabetical character"
+		ex 198	
+		} 
+		if `varl' > 31 {
+		di as err "Option cvar has too many characters (max 31)"
+		ex 198	
+		}
+		if `anyspec' == 1 {
+		di as err "Option cvar cannot have a special character in"
+		ex 198		
+		}
 	}
 	
 	if "`fname'" == "" {
@@ -120,6 +139,8 @@ preserve
 	di as err "Media path specified - Check where media was exported to and enter in option"
 	ex 198
 	}
+	
+	local scheck = substr("`cvar'", 1, 1)
 
 /*
 ********************************************************************************
