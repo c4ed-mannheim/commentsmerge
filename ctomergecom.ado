@@ -114,7 +114,7 @@ preserve
 	else {
 		local scheck = substr("`cvar'", 1, 1)	
 		local schecko = regexm("`scheck'", "[a-zA-Z]")
-		local anyspec regexm(string_var, "[^a-zA-Z0-9]")
+		local anyspec regexm("`cvar'", "[^a-zA-Z0-9]")
 		local varl = strlen("`cvar'")
 		if `schecko' !=1 {
 		di as err "Option cvar must start with alphabetical character"
