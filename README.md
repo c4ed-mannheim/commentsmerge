@@ -8,7 +8,7 @@ ctomergecom is a Stata command for merging SurveyCTO comment data with imported 
 ## Installation
 
 ```stata
-* ipacheckscto can be installed from github
+* ctomergecom can be installed from github
 
 net install ctomergecom, all replace ///
 from("https://raw.githubusercontent.com/c4ed-mannheim/commentsmerge/main")
