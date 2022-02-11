@@ -307,15 +307,15 @@ if `obs_count_before' != `obs_count_after' { // Flag if the number of obs before
 ********************************************************************************
 
 foreach var of varlist *_`cvar' *_`cvar'* {
-local orig_`var' = substr("`var'", 1, strrpos("`var'", "_")-1) // Takes the original variable name
-capture confirm variable `orig_`var'', exact
+local o_`var' = substr("`var'", 1, strrpos("`var'", "_")-1) // Takes the original variable name
+capture confirm variable `o_`var'', exact
 if !_rc {
-order `var', after(`orig_`var'') // Puts comment variable after original
+order `var', after(`o_`var'') // Puts comment variable after original
 }
 else {
-	capture confirm variable `orig_`var''_1, exact
+	capture confirm variable `o_`var''_1, exact
 	if !_rc {
-order `var', before(`orig_`var''_1) // Puts comment variable before the first of the roster
+order `var', before(`o_`var''_1) // Puts comment variable before the first of the roster
 	}
 	else {
 		di "variable doesn't exist, `var' will be at end of dataset"
@@ -339,3 +339,4 @@ restore, not
 
 cd "`dir'"
 end
+
