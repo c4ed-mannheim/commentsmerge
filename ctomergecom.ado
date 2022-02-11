@@ -199,10 +199,10 @@ if `r(N)'>1 {
 ds id counter, not 
 foreach var of varlist `r(varlist)' {
 	distinct `var'
-		if `r(N)'==1 {
+		if `r(ndistinct)'==1 {
 			local singvar `singvar' `var'
 		}
-		if `r(N)'>1 {
+		if `r(ndistinct)'>1 {
 			local dupvar `dupvar' `var'
 		}
 } 
@@ -211,11 +211,15 @@ tempfile allvar
 save `allvar'
 
 use `allvar', clear
-keep id `singvar'
-drop if `singvar'==""
+keep counter id `singvar'
+foreach var of varlist `singvar' {
+drop if `var'=="" // put this in a loop for each single variable
+duplicates drop `var', force // removes duplicate cases
+}
 tempfile singlevar
 save `singlevar'
 
+if "`dupvar'" != "" {
 use `allvar', clear
 keep id counter `dupvar'
 reshape wide `dupvar', i(id) j(counter)
@@ -223,6 +227,7 @@ reshape wide `dupvar', i(id) j(counter)
 tempfile duplciatevar
 save `duplciatevar'
 merge 1:1 id using `singlevar', nogen
+}
 }
 
 drop id
