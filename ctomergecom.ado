@@ -183,6 +183,9 @@ rename comment _`cvar' // Prepping for reshape
 replace _`cvar' = "[EMPTY COMMENT BY ENUMERATOR]" if _`cvar' == "" & variable!=""
 drop if _`cvar' == ""
 
+local singvar = ""
+local dupvar = ""
+
 count 
 if `r(N)'>0 {
 
@@ -211,6 +214,7 @@ tempfile allvar
 save `allvar'
 
 use `allvar', clear
+
 keep counter id `singvar'
 foreach var of varlist `singvar' {
 drop if `var'=="" // put this in a loop for each single variable
